@@ -44,15 +44,19 @@ CREATE TABLE CUSTOMER_TBL
     6. PK/FK 제약조건
         1) PK
             (1) 추가
-                ALTER TABLE 테이블명 AND  CONSTRAINT 제약조건명 PRIMARY KEY (칼럼)
+                ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 PRIMARY KEY (칼럼)
             (2) 삭제
                 ALTER TABLE 테이블명 DROP CONSTRAINT 제약조건명 
                 ALTER TABLE 테이블명 DROP PRIMARY KEY 
         2) FK
             (1) 추가
-                ALTER TABLE 자식테이블명 ADD CONSTRAINT  제약조건명 FOREIGN KEY (컬럼) REFERENCES 부모테이블명(참조할컬럼)
+                ALTER TABLE 자식테이블명 ADD      CONSTRAINT  제약조건명 FOREIGN KEY (컬럼) REFERENCES 부모테이블명(참조할컬럼)
             (2) 삭제
-                ALTER TABLE 테이블명 DROP CONSTRAINT 제약조건명 
+                ALTER TABLE 테이블명     DROP     CONSTRAINT 제약조건명 
+            (3) 일시중지
+                ALTER TABLE 테이블명     DISABLE  CONSTRAINT 제약조건명
+            (4) 활성화
+                ALTER TABLE 테이블명     ENABLE   CONSTRAINT 제약조건명
     */
     
     --실습
