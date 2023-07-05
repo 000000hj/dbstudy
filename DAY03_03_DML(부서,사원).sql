@@ -72,7 +72,42 @@ COMMIT;
 
 ROLLBACK;
 
+--수정
+/*
+    UPDATE 테이블 
+    SET 업데이트할내용, 업데이트할내용, ...
+    WHERE 조건식
+*/
 
+--1. 부서번호가 3인 부서의 지역을 '인천'으로 변경하시오
+UPDATE DEPARTMENT_T 
+   SET LOCATION='인천' --SET절의 등호(=)는 대입연산자 
+ WHERE DEPT_NO = 3;  --WHERE절의 등호(=)는 동등비교연산자
+ 
+ --2. 부서번호가 2인 부서에 근무하는 모든 사원들의 연봉을 500000원으로 증가시키시오
+ UPDATE EMPLOYEE_T
+    SET SALARY=SALARY+500000
+  WHERE DEPART=2;
+--삭제
+
+/*
+DELETE 
+  FROM 테이블명
+ WHERE 조건식
+*/
+--지역이 인천인 부서를 삭제하시오.
+
+DELETE
+  FROM DEPARTMENT_T
+ WHERE LOCATION='인천';
+ 
+ 
+ --2.지역이 서울인 부서를 삭제하시오.(서울에 근무하는 사원이 있다 -> ON DELETE SET NULL 옵션에 의해서 부서정보가 NULL값으로 처리된다.)
+ DELETE 
+   FROM DEPARTMENT_T
+  WHERE LOCATION='서울';
+   
+ROLLBACK;
 
 
 
