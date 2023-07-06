@@ -41,7 +41,7 @@
     3, 드라이브 테이블을 드리븐 테이블보다 먼저 작성하면 성능에 도움이 된다.
 
 */
---내부조인
+--내부조인 오라클식 문법
 
 --1. 사원번호, 사원명, 부서번호, 부서명을 조회하시오.
 SELECT EMPLOYEE_ID --2개의 테이블에 모두 있는(이름이 같은) 칼럼은 반드시 테이블(오너) 을 명시해야 한다.
@@ -49,8 +49,8 @@ SELECT EMPLOYEE_ID --2개의 테이블에 모두 있는(이름이 같은) 칼럼
     ,  LAST_NAME
     ,  D.DEPARTMENT_ID
     ,  DEPARTMENT_NAME
-  FROM DEPARTMENTS D INNER JOIN EMPLOYEES E
-    ON D.DEPARTMENT_ID = E.DEPARTMENT_ID;
+  FROM DEPARTMENTS D , EMPLOYEES E   --INNER JOIN 대신 콤마(,)
+ WHERE D.DEPARTMENT_ID = E.DEPARTMENT_ID;     -- ON 대신 WHERE 사용
 
 --2. 사원번호, 사원명, 직업, 직업별 최대연봉, 직업별 최소연봉을 조회하시오.
 
@@ -60,8 +60,8 @@ SELECT EMPLOYEE_ID
      , SALARY
      , MAX_SALARY
      , MIN_SALARY
-     FROM JOBS J INNER JOIN EMPLOYEES E
-     ON J.JOB_ID=E.JOB_ID;
+     FROM JOBS J ,EMPLOYEES E
+     WHERE J.JOB_ID=E.JOB_ID;
      
      
 --외부 조인
@@ -72,8 +72,8 @@ SELECT EMPLOYEE_ID
     ,  LAST_NAME
     ,  D.DEPARTMENT_ID
     ,  DEPARTMENT_NAME
-    FROM DEPARTMENTS D RIGHT OUTER JOIN EMPLOYEES E --오른쪽테이블의 모든 데이터를 조회하시오.(부서번호가 없는 사원도 조회하시오.)
-      ON D.DEPARTMENT_ID = E.DEPARTMENT_ID;
+    FROM DEPARTMENTS D , EMPLOYEES E --오른쪽테이블의 모든 데이터를 조회하시오.(부서번호가 없는 사원도 조회하시오.)
+   WHERE D.DEPARTMENT_ID(+) = E.DEPARTMENT_ID;  --RIGHT OUTER JOIN은 반대방향(LEFT)에 (+)를 추가한다.
 
 
 --왼쪽외부조인
@@ -83,8 +83,8 @@ SELECT EMPLOYEE_ID
     ,  LAST_NAME
     ,  D.DEPARTMENT_ID
     ,  DEPARTMENT_NAME
-    FROM   DEPARTMENTS D LEFT OUTER JOIN EMPLOYEES E --왼쪽 테이블의 모든 데이터를 조회하시오.(사원이 근무하지 않는 부서도 조회하시오.)
-      ON D.DEPARTMENT_ID = E.DEPARTMENT_ID;
+    FROM   DEPARTMENTS D , EMPLOYEES E --왼쪽 테이블의 모든 데이터를 조회하시오.(사원이 근무하지 않는 부서도 조회하시오.)
+      WHERE D.DEPARTMENT_ID = E.DEPARTMENT_ID(+);
     
     
     /*
@@ -102,9 +102,9 @@ SELECT EMPLOYEE_ID
     ,DEPARTMENT_NAME
     ,L.LOCATION_ID
     ,CITY
-    FROM LOCATIONS L INNER JOIN DEPARTMENTS D
-    ON L.LOCATION_ID = D.LOCATION_ID INNER JOIN EMPLOYEES E
-    ON D.DEPARTMENT_ID = E.DEPARTMENT_ID;
+    FROM LOCATIONS L , DEPARTMENTS D , EMPLOYEES E
+    WHERE L.LOCATION_ID = D.LOCATION_ID 
+    AND D.DEPARTMENT_ID = E.DEPARTMENT_ID;
     
     
 --6. 부서번호,부서명, 근무도시, 근무국가를 조회하시오
@@ -113,6 +113,6 @@ SELECT DEPARTMENT_ID
       ,DEPARTMENT_NAME
       ,CITY
       ,COUNTRY_NAME
-  FROM  COUNTRIES C INNER JOIN LOCATIONS L
-    ON  C.COUNTRY_ID = L.COUNTRY_ID INNER JOIN DEPARTMENTS D
-     ON L.LOCATION_ID = D.LOCATION_ID;
+  FROM  COUNTRIES C , LOCATIONS L, DEPARTMENTS D
+ WHERE C.COUNTRY_ID = L.COUNTRY_ID 
+    AND L.LOCATION_ID = D.LOCATION_ID;
