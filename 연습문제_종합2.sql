@@ -8,7 +8,12 @@
     (3) PUBLISHER : 출판사, 가변 길이 문자 (최대 50 BYTE)
     (4) PRICE : 가격, 숫자 (최대 6자리)
 */
-
+CREATE TABLE BOOK_T(
+        BOOK_ID         NUMBER(11)          NOT NULL,
+        BOOK_NAME       VARCHAR2(100 BYTE),
+        PUBLISHER       VARCHAR2(50 BYTE),
+        PRICE           NUMBER(6)
+        );
 /*
     CUSTOMER_T 테이블
     (1) CUST_ID   : 고객번호, 숫자 (최대 11자리), 필수
@@ -17,6 +22,14 @@
     (4) CUST_TEL  : 전화, 가변 길이 문자 (최대 20 BYTE)
 */
 
+CREATE TABLE CUSTOMER_T(
+        CUST_ID         NUMBER(11)           NOT NULL,
+        CUST_NAME       VARCHAR2(20 BYTE),
+        CUST_ADDR       VARCHAR2(50 BYTE),
+        PRICE           VARCHAR2(20 BYTE)
+        );
+        
+        
 /*
     ORDER_T 테이블
     (1) ORDER_ID : 주문번호, 가변 길이 문자 (최대 20 바이트), 필수
@@ -25,8 +38,15 @@
     (4) AMOUNT : 판매수량, 숫자 (최대 2자리)
     (5) ORDER_DT : 주문일, 날짜
 */
-
-
+CREATE TABLE ORDER_T(
+        ORDER_ID        VARCHAR2(20 BYTE)      NOT NULL,
+        CUST_ID         NUMBER(11) ,             
+        BOOK_ID         NUMBER(11),
+        AMOUNT          NUMBER(2),
+        ORDER_DT        DATE
+        );
+        
+COMMIT;
 -- 2. 1부터 1씩 증가하는 값을 생성하는 BOOK_SEQ 시퀀스를 생성하시오.
 -- 아래 데이터를 BOOK_T 테이블에 INSERT하시오. 책번호는 BOOK_SEQ 시퀀스를 이용하시오.
 /*
@@ -42,7 +62,11 @@
     9       올림픽 이야기    삼성당      7500
     10      올림픽 챔피언    나이스북    13000
 */
-
+CREATE SEQUENCE BOOK_SEQ
+INCREMENT BY 1
+START WITH 1;
+INSERT INTO BOOK_T(BOOK_ID,BOOK_NAME,PUBLISHER,PRICE)VALUES(BOOK_SEQ.NEXTVAL,'축구의 역사','굿스포츠',7000);
+INSERT INTO BOOK_T(BOOK_ID,BOOK_NAME,PUBLISHER,PRICE)VALUES(BOOK_SEQ.NEXTVAL,'축구 아는 여자','나이스북',13000);
 
 -- 3. 1000부터 1씩 증가하는 값을 생성하는 CUST_SEQ 시퀀스를 생성하시오.
 -- 아래 데이터를 CUSTOMER_T 테이블에 INSERT하시오. 회원번호는 CUST_SEQ 시퀀스를 이용하시오.
@@ -59,7 +83,7 @@
 -- 4. 1부터 1씩 증가하는 ORDER_SEQ 시퀀스를 생성하시오.
 -- 아래 데이터를 ORDER_T 테이블에 INSERT하시오. '주문일자6자리-시퀀스' 형식으로 주문번호를 만드시오.
 -- TIP.
--- 1) ORDER_SEQ 시퀀스를 이용해서 주문번호를 INSERT한다.
+-- 1)텍스트 를 이용해서 주문번호를 INSERT한다.
 -- 2) 기존 주문번호를 주문일-주문번호 형식의 주문번호로 UPDATE한다.
 /*
     주문번호   고객번호  책번호  판매수량 주문일자
